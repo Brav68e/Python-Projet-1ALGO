@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
+from pygame import mixer
 
 
 class MainMenu():
@@ -22,7 +23,10 @@ class MainMenu():
         self.fenetre.title("CROWN CONQUEST")
         self.fenetre.geometry("600x600")
         self.fenetre.resizable(False, False)
-        
+        #Music settings
+        mixer.init()
+        sound = mixer.Sound("Music/music.mp3")
+        sound.play(-1)  #-1 = infinite loop
 
         menu = tk.Menu(self.fenetre)
         self.fenetre.config(menu=menu)
