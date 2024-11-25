@@ -347,6 +347,7 @@ class Game():
     def check_win(self):
             '''Check if a player has won the game'''
             if self.current_player.get_pawnNbr() <= 2:
+                self.text.configure(text= f"{self.players[(self.current_player_index + 1) % 2].get_username()} has won !")
                 if messagebox.askyesno("Game Over", f"{self.players[(self.current_player_index + 1) % 2].get_username()} has won the game !\nDo you want to play again ?"):
                     #Launch back the menu
                     self.controller.launch_menu(self.root)
