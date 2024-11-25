@@ -15,5 +15,5 @@ class Game_controller():
         self.menu = MainMenu(self, root)
 
     
-    def launch_game(self, size, username1, username2, root, path):
-        self.game = Game(self, size, username1, username2, root, path)
+    def launch_game(self, root, size = 6, username1 = "Player 1", username2 = "Player 2", path = None):
+        self.game = Game(self, root, size, username1, username2, path)
