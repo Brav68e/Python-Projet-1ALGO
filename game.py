@@ -37,10 +37,15 @@ class Game():
         self.canvas_size = 800              #Only handling 'square' size
 
         self.canvas = Canvas(self.root, height=self.canvas_size, width=self.canvas_size)
-        self.canvas.pack(side=TOP)
+        self.canvas.place(x=50, y=0)
 
         self.text = Label(self.root, text=f"Turn of : {self.current_player.get_username()}", font= 25)
-        self.text.pack(side=BOTTOM, pady=20)
+        self.text.place(x=375, y=825)
+
+        #Save and Leave Button
+        Button(self.root, text="Save", command=None).place(x=750, y=850, width=50)
+        Button(self.root, text="Quit", command=self.root.destroy).place(x=800, y=850, width=50)
+
 
         self.refresh()
 
