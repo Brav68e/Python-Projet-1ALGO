@@ -18,7 +18,7 @@ class MainMenu():
             self.fenetre = tk.Tk()
 
         #Begin general settings
-        self.fenetre.title("Main Menu")
+        self.fenetre.title("CROWN CONQUEST")
         self.fenetre.geometry("600x600")
         self.fenetre.resizable(False, False)
         

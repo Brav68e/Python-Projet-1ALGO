@@ -31,7 +31,7 @@ class Game():
             el.destroy()
 
         #General settings
-        self.root.title("Game")
+        self.root.title("CROWN CONQUEST")
         self.root.geometry("900x900")
         self.root.resizable(False, False)
         self.canvas_size = 800              #Only handling 'square' size
@@ -211,13 +211,13 @@ class Game():
         line, column = pawn.get_coord()
 
         if owner == self.players[0] and value == 1:                 #Player 1 rook
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Red", outline, width)
+            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#4169E1", outline, width)
         elif owner == self.players[0] and value == 2:               #Player 1 queen
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Pink", outline, width)
+            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#0F52BA", outline, width)
         elif owner == self.players[1] and value == 1:               #Player 2 rook
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Blue", outline, width)
+            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#DC143C", outline, width)
         else:                                                       #Player 1 queen
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Purple", outline, width)
+            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#9B111E", outline, width)
 
 
 ##################################################################################
@@ -316,7 +316,7 @@ class Game():
     def draw_possibilities(self):
         '''Draw on the board an indicator of where the selected pawn can go'''
         for coord in self.possibilities:
-            self.create_oval(coord[1]*self.tile_size + self.tile_size/2, coord[0]*self.tile_size + self.tile_size/2, self.size/3, "Black", "Black", 1)
+            self.create_oval(coord[1]*self.tile_size + self.tile_size/2, coord[0]*self.tile_size + self.tile_size/2, self.tile_size/5, "grey", "Black", 1)
 
 
 ##################################################################################
