@@ -43,7 +43,7 @@ class Game():
         self.text.place(x=375, y=825)
 
         #Save and Leave Button
-        Button(self.root, text="Save", command=None).place(x=750, y=850, width=50)
+        Button(self.root, text="Save", command=self.save_game).place(x=750, y=850, width=50)
         Button(self.root, text="Quit", command=self.root.destroy).place(x=800, y=850, width=50)
 
 
@@ -126,6 +126,48 @@ class Game():
             self.board.append(current_row)
 
         save.close()
+
+
+##################################################################################
+
+
+    def save_game(self):
+        '''Create a save file of the current game'''
+
+        #Determine what's the file's name
+        base_filename = "save"
+        extension = ".txt"
+        counter = 0
+
+        while True:
+            filename = f"Save/{base_filename}_{counter}{extension}" if counter > 0 else f"Save/{base_filename}{extension}"
+            try:
+                with open(filename, "x") as file:
+                    
+                    #In this case, we can deal with informations's storage
+                    file.write(f"{self.players[0].get_username()}\n")
+                    file.write(f"{self.players[1].get_username()}\n")
+                    file.write(f"{str(self.size)}\n")
+                    file.write(f"{str(self.current_player_index)}\n")
+
+                    for row in range(self.size):
+                        for column, el in enumerate(self.board[row]):
+                            if el == 0:
+                                file.write("0")
+                            elif el.get_value() == 1 and el.get_owner() == self.players[0]:
+                                file.write("1")
+                            elif el.get_value() == 2 and el.get_owner() == self.players[0]:
+                                file.write("2")
+                            elif el.get_value() == 1 and el.get_owner() == self.players[1]:
+                                file.write("3")
+                            else:
+                                file.write("4")
+                        #Line Break
+                        file.write("\n")
+                    self.text.configure(text="Saved Succesfully !")
+                    break
+            except FileExistsError:
+                counter += 1
 
 
 ##################################################################################
