@@ -6,7 +6,7 @@ from tkinter import messagebox
 
 class Game():
 
-    def __init__(self, controller, root, size = 6, username1="player 1", username2="player 2", path = None):
+    def __init__(self, controller, root, size, username1, username2, path):
 
         self.controller = controller
         
@@ -15,9 +15,10 @@ class Game():
 
         if path:
             self.load_game(path)
+            print(self.board)
         else:
             self.size = size
-            self.players = [Player(username1, (0, size-1), size**2 // 4), Player(username2, (size-1, 0), size**2 // 4)]
+            self.players = [Player(username1, (size-1, 0), size**2 // 4), Player(username2, (0, size-1), size**2 // 4)]
             self.current_player = self.players[0]
             self.current_player_index = 0
             self.create_board(size)
@@ -61,20 +62,20 @@ class Game():
 
         #Place pawn for each player
         #Starting of with player 1 :
-        for i in range(size//2, size):
-            for j in range(size//2):
-                if i==size-1 and j==0 :
-                    self.board[i][j] = Pawn(2, self.players[1], (i,j))
+        for line in range(size//2, size):
+            for column in range(size//2):
+                if line==size-1 and column==0 :     #Queen for player 1
+                    self.board[line][column] = Pawn(2, self.players[0], (line, column))
                 else:
-                    self.board[i][j] = Pawn(1, self.players[1], (i,j))
+                    self.board[line][column] = Pawn(1, self.players[0], (line, column))
 
         #Now doing it for the other player
-        for i in range(size//2):
-            for j in range(size//2, size):
-                if i==0 and j==size-1 :
-                    self.board[i][j] = Pawn(2, self.players[0], (i,j))
+        for line in range(size//2):
+            for column in range(size//2, size):
+                if line==0 and column==size-1 :     #Queen for player 2
+                    self.board[line][column] = Pawn(2, self.players[1], (line, column))
                 else:
-                    self.board[i][j] = Pawn(1, self.players[0], (i,j))
+                    self.board[line][column] = Pawn(1, self.players[1], (line, column))
 
 
 ##################################################################################
@@ -88,32 +89,34 @@ class Game():
         self.size = int(save.readline())
         
         self.players = [player1, player2]
+        self.current_player_index = int(save.readline())
+        self.current_player = self.players[self.current_player_index]
 
         #Now read the file and create the board
         self.board = []
 
-        for i in range(self.size):
+        for line in range(self.size):
             current_row = []
             current_line = save.readline()
 
-            for j, car in enumerate(current_line):
+            for column, car in enumerate(current_line):
                 match car:
-                    case 0:
+                    case "0":
                         current_row.append(0)
-                    case 1:
-                        current_row.append(Pawn(1, player1, (i,j)))
+                    case "1":
+                        current_row.append(Pawn(1, player1, (line, column)))
                         player1.set_pawnNbr(player1.get_pawnNbr() + 1)
-                    case 2:
-                        current_row.append(Pawn(2, player1, (i,j)))
+                    case "2":
+                        current_row.append(Pawn(2, player1, (line, column)))
                         player1.set_pawnNbr(player1.get_pawnNbr() + 1)
-                        player1.set_queenCoord((i,j))
-                    case 3:
-                        current_row.append(Pawn(1, player2, (i,j)))
+                        player1.set_queenCoord((line, column))
+                    case "3":
+                        current_row.append(Pawn(1, player2, (line, column)))
                         player2.set_pawnNbr(player1.get_pawnNbr() + 1)
-                    case 4:
-                        current_row.append(Pawn(2, player2, (i,j)))
+                    case "4":
+                        current_row.append(Pawn(2, player2, (line, column)))
                         player2.set_pawnNbr(player1.get_pawnNbr() + 1)
-                        player2.set_queenCoord((i,j))
+                        player2.set_queenCoord((line, column))
 
             self.board.append(current_row)
 
@@ -128,11 +131,12 @@ class Game():
 
         self.tile_size = self.canvas_size/self.size
 
-        for i in range(self.size):
-            for j in range(self.size):
-                x = i*self.tile_size +2             # +2 stand for a visual issue
-                y = j*self.tile_size +2
-                self.canvas.create_rectangle(x, y, x+self.tile_size, y+self.tile_size, outline="black", width=2)
+        for line in range(self.size):
+            line = line*self.tile_size +2             # +2 stand for a visual issue
+            for column in range(self.size):
+                column = column*self.tile_size +2
+                
+                self.canvas.create_rectangle(column, line, column+self.tile_size, line+self.tile_size, outline="black", width=2)
 
 
 ##################################################################################        
@@ -140,12 +144,12 @@ class Game():
     def draw_pawns(self):
         '''Draw every pawn on the board'''
 
-        for i in range(self.size):
-            for j in range(self.size):
+        for line in range(self.size):
+            for column in range(self.size):
                 #Check if the tile is a pawn
-                if isinstance(self.board[i][j], Pawn):
+                if isinstance(self.board[line][column], Pawn):
                     
-                    current_pawn = self.board[i][j]
+                    current_pawn = self.board[line][column]
                     self.draw_pawn(current_pawn)
 
 
@@ -157,16 +161,16 @@ class Game():
 
         owner = pawn.get_owner()
         value = pawn.get_value()
-        i, j = pawn.get_coord()
+        line, column = pawn.get_coord()
 
         if owner == self.players[0] and value == 1:                 #Player 1 rook
-            self.create_oval(i*self.tile_size + self.tile_size/2, j*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Red", outline, width)
+            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Red", outline, width)
         elif owner == self.players[0] and value == 2:               #Player 1 queen
-            self.create_oval(i*self.tile_size + self.tile_size/2, j*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Pink", outline, width)
+            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Pink", outline, width)
         elif owner == self.players[1] and value == 1:               #Player 2 rook
-            self.create_oval(i*self.tile_size + self.tile_size/2, j*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Blue", outline, width)
+            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Blue", outline, width)
         else:                                                       #Player 1 queen
-            self.create_oval(i*self.tile_size + self.tile_size/2, j*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Purple", outline, width)
+            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "Purple", outline, width)
 
 
 ##################################################################################
@@ -194,25 +198,25 @@ class Game():
     def interact(self, event):
         '''Handle interactions with left-click on the canvas'''
 
-        x = int(event.x / self.tile_size)
-        y = int(event.y / self.tile_size)
+        column = int(event.x / self.tile_size)
+        line = int(event.y / self.tile_size)
 
         #Pawn selection
-        if isinstance(self.board[x][y], Pawn) and self.selected_pawn == None and self.board[x][y].get_owner() == self.current_player:
-            self.selected_pawn = self.board[x][y]
+        if isinstance(self.board[line][column], Pawn) and self.selected_pawn == None and self.board[line][column].get_owner() == self.current_player:
+            self.selected_pawn = self.board[line][column]
             self.draw_pawn(self.selected_pawn, outline="Green", width=5)            #Act as a refresh
             self.possible_moves()
             self.draw_possibilities()
             
         #Pawn movement
-        elif (x,y) in self.possibilities:
+        elif (line, column) in self.possibilities:
             tmpx, tmpy = self.selected_pawn.get_coord()
-            self.board[x][y] = self.selected_pawn
-            self.board[x][y].set_coord((x,y))
+            self.board[line][column] = self.selected_pawn
+            self.board[line][column].set_coord((line, column))
             self.board[tmpx][tmpy] = 0
             
             if self.selected_pawn.get_value() == 2:
-                self.current_player.set_queenCoord((x,y))
+                self.current_player.set_queenCoord((line, column))
 
             #Remove pawns due to the move that just occur
             self.remove()
@@ -241,8 +245,8 @@ class Game():
 
     def possible_moves(self):
         '''Update the list of coordinates where the selected pawn can go'''
-        x = self.selected_pawn.get_coord()[0]
-        y = self.selected_pawn.get_coord()[1]
+        line = self.selected_pawn.get_coord()[0]
+        column = self.selected_pawn.get_coord()[1]
         self.possibilities = []
 
         directions = [(0,1), (1,0), (-1,0), (0,-1)]
@@ -254,8 +258,8 @@ class Game():
         for i,j in directions:
             compteur = 1
             #While the x and y are valid and point a empty tile
-            while (x+i*compteur < self.size and x+i*compteur >= 0) and (y+j*compteur >= 0 and y+j*compteur < self.size) and self.board[x+i*compteur][y+j*compteur] == 0:
-                self.possibilities.append((x+i*compteur,y+j*compteur))
+            while (line+i*compteur < self.size and line+i*compteur >= 0) and (column+j*compteur >= 0 and column+j*compteur < self.size) and self.board[line+i*compteur][column+j*compteur] == 0:
+                self.possibilities.append((line+i*compteur, column+j*compteur))
                 compteur += 1
 
 
@@ -265,7 +269,7 @@ class Game():
     def draw_possibilities(self):
         '''Draw on the board an indicator of where the selected pawn can go'''
         for coord in self.possibilities:
-            self.create_oval(coord[0]*self.tile_size + self.tile_size/2, coord[1]*self.tile_size + self.tile_size/2, self.size/3, "Black", "Black", 1)
+            self.create_oval(coord[1]*self.tile_size + self.tile_size/2, coord[0]*self.tile_size + self.tile_size/2, self.size/3, "Black", "Black", 1)
 
 
 ##################################################################################
@@ -274,20 +278,20 @@ class Game():
     def remove(self):
         '''Use to remove the opponent's rook'''
         
-        xq, yq = self.current_player.get_queenCoord()
-        x, y = self.selected_pawn.get_coord()
+        q_line, q_column = self.current_player.get_queenCoord()
+        line, column = self.selected_pawn.get_coord()
 
         #If the tile is a pawn, and the pawn is a rook own by the opponent, then ...
         #Doing this of each edge of the rectangle
-        if isinstance(self.board[x][yq], Pawn) and self.board[x][yq].get_value() == 1 and self.board[x][yq].get_owner() == self.players[(self.current_player_index + 1) % 2]:
+        if isinstance(self.board[line][q_column], Pawn) and self.board[line][q_column].get_value() == 1 and self.board[line][q_column].get_owner() == self.players[(self.current_player_index + 1) % 2]:
             opponent = self.players[(self.current_player_index + 1) % 2]
             opponent.set_pawnNbr(opponent.get_pawnNbr() - 1)
-            self.board[x][yq] = 0
+            self.board[line][q_column] = 0
 
-        if isinstance(self.board[xq][y], Pawn) and self.board[xq][y].get_value() == 1 and self.board[xq][y].get_owner() == self.players[(self.current_player_index + 1) % 2]:
+        if isinstance(self.board[q_line][column], Pawn) and self.board[q_line][column].get_value() == 1 and self.board[q_line][column].get_owner() == self.players[(self.current_player_index + 1) % 2]:
             opponent = self.players[(self.current_player_index + 1) % 2]
             opponent.set_pawnNbr(opponent.get_pawnNbr() - 1)
-            self.board[xq][y] = 0
+            self.board[q_line][column] = 0
 
 
 ##################################################################################
