@@ -31,18 +31,7 @@ class MainMenu():
         menu = tk.Menu(self.fenetre)
         self.fenetre.config(menu=menu)
         
-        '''Rolling Menu For Saved Games'''
-        rolling_menu = tk.Frame(self.fenetre, borderwidth=3, bg="lightgrey")
-        rolling_menu.pack(fill=tk.X)
-
-        '''File Tab'''
-        file_menu = tk.Menubutton(rolling_menu, text="File", width='20',borderwidth=2, bg='white', activebackground='grey', relief='raised')
-        file_menu.grid(row=0, column=0)
-
-        '''File Tab Options'''
-        file_rolling_menu = tk.Menu(file_menu, tearoff=0)
-        file_menu.config(menu=file_rolling_menu)
-        file_rolling_menu.add_command(label="Load Game", command=self.load_game)
+        
         
         start_btn = tk.Button(self.fenetre, text="Play", command=self.play, width=12, height=3)
         
@@ -50,7 +39,7 @@ class MainMenu():
         self.user1 = tk.Entry(self.fenetre, width=20)
         self.user2 = tk.Entry(self.fenetre, width=20)
         
-        title = tk.Label(self.fenetre, text="CROWN CONQUEST", font=("Fast Drag Demo", 30, "bold"), fg="red")
+        title = tk.Label(self.fenetre, text="CROWN CONQUEST", font=("Arial", 30, "bold"), fg="red")
         title.place(x=115,y=60)
 
         choix = tk.Label(self.fenetre, text="Choisissez la taille du plateau :", font=("Arial", 15))
@@ -65,8 +54,13 @@ class MainMenu():
         btn_plus=tk.Button(self.fenetre, text="+", command=self.plus, width='3', height='1')
         btn_plus.place(x=320, y=175)
         btn_moins=tk.Button(self.fenetre, text="-", command=self.moins, width='3', height='1')
-        btn_moins.place(x=250, y=175)   #Used to be y=225
+        btn_moins.place(x=245, y=175)   #Used to be y=225
 
+
+        '''Load Save button'''
+
+        load_save = tk.Button(self.fenetre, text="Load Saved Game", width='20',borderwidth=2, bg='white', command=self.load_game)
+        load_save.place(x=220, y=570)
 
         user1_text = tk.Label(self.fenetre, text="Player 1 :", font=("Arial"))
         user1_text.place(x=10, y=350)
