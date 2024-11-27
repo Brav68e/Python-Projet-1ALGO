@@ -153,7 +153,8 @@ class MainMenu():
     def load_game(self):
         '''Use to select a file, read it and launch the game with those parameters'''
         file_path = filedialog.askopenfilename()
-        self.controller.launch_game(self.fenetre, path = file_path)
+        if file_path:
+            self.controller.launch_game(self.fenetre, path = file_path)
 
 
 ###################################################################################

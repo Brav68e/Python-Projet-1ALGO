@@ -40,7 +40,7 @@ class Game():
         self.canvas.place(x=50, y=0)
 
         self.text = Label(self.root, text=f"Turn of : {self.current_player.get_username()}", font= 25)
-        self.text.place(x=375, y=825)
+        self.text.place(x=375, y=830)
 
         #Image for buttons + creation
         self.load_pictures()
@@ -248,10 +248,7 @@ class Game():
         #Pawn selection
         if isinstance(self.board[line][column], Pawn) and self.selected_pawn == None and self.board[line][column].get_owner() == self.current_player:
             self.selected_pawn = self.board[line][column]
-            if self.selected_pawn.get_owner() == self.players[1]:
-                self.draw_pawn(self.selected_pawn, outline="#FFD700", width=5)
-            else:
-                self.draw_pawn(self.selected_pawn, outline="#00FFFF", width=5)
+            self.draw_pawn(self.selected_pawn, outline="#32CD32", width=5)
             self.possible_moves()
             self.draw_possibilities()
             
