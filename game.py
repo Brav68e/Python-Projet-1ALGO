@@ -16,7 +16,6 @@ class Game():
 
         if path:
             self.load_game(path)
-            print(self.board)
         else:
             self.size = size
             self.players = [Player(username1, (size-1, 0), size**2 // 4), Player(username2, (0, size-1), size**2 // 4)]
@@ -44,12 +43,10 @@ class Game():
         self.text.place(x=375, y=825)
 
         #Image for buttons + creation
-        back_image = PhotoImage(file = "Images/back.png")
-        save_image = PhotoImage(file = "Images/save.png")
-        leave_image = PhotoImage(file = "Images/leave.png")
-        Button(self.root, text="Back to menu", image=back_image, compound=TOP, command=self.go_menu).place(x=50, y=825)
-        Button(self.root, text="Save", image=save_image, compound=TOP, command=self.save_game).place(x=700, y=825)
-        Button(self.root, text="Quit", image=leave_image, compound=TOP, command=self.root.destroy).place(x=800, y=825)
+        self.load_pictures()
+        Button(self.root, text="Back to menu", image=self.back_image, compound=TOP, command=self.go_menu).place(x=50, y=825)
+        Button(self.root, text="Save", image=self.save_image, compound=TOP, command=self.save_game).place(x=700, y=825)
+        Button(self.root, text="Quit", image=self.leave_image, compound=TOP, command=self.root.destroy).place(x=800, y=825)
 
 
         self.refresh()
@@ -205,16 +202,20 @@ class Game():
         owner = pawn.get_owner()
         value = pawn.get_value()
         line, column = pawn.get_coord()
+        x = column*self.tile_size + self.tile_size/2
+        y = line*self.tile_size + self.tile_size/2
+        r = self.tile_size/3*size
 
         if owner == self.players[0] and value == 1:                 #Player 1 rook
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#4169E1", outline, width)
+            self.create_oval(x, y, r, "#4169E1", outline, width)
         elif owner == self.players[0] and value == 2:               #Player 1 queen
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#0F52BA", outline, width)
+            self.create_oval(x, y, r, "#0F52BA", outline, width)
+            self.canvas.create_image(x, y, image=self.crown_image)
         elif owner == self.players[1] and value == 1:               #Player 2 rook
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#DC143C", outline, width)
+            self.create_oval(x, y, r, "#DC143C", outline, width)
         else:                                                       #Player 1 queen
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#9B111E", outline, width)
-
+            self.create_oval(x, y, r, "#9B111E", outline, width)
+            self.canvas.create_image(x, y, image=self.crown_image)
 
 ##################################################################################
 
@@ -351,9 +352,22 @@ class Game():
                     self.root.destroy()
 
 
-##############################################################################################################
+##################################################################################
 
 
     def go_menu(self):
         '''Launch the menu'''
         self.controller.launch_menu(self.root)
+
+
+##################################################################################
+
+
+    def load_pictures(self):
+        '''Load every pictures needed, prevent from loading multiple times'''
+    
+        self.back_image = PhotoImage(file = "Images/back.png")
+        self.save_image = PhotoImage(file = "Images/save.png")
+        self.leave_image = PhotoImage(file = "Images/leave.png")
+        self.crown_image = PhotoImage(file = "Images/crown.png")
+        
