@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 from pygame import mixer
+import tkinter.font as tkFont
 
 
 class MainMenu():
@@ -22,8 +23,10 @@ class MainMenu():
         #General settings
         self.fenetre.title("CROWN CONQUEST")
         self.fenetre.geometry("600x600")
-        self.fenetre.configure(bg="#3a3935")
+        self.fenetre.configure(bg="#f0f0ed")
         self.fenetre.resizable(False, False)
+        font_path = "fonts/MedievalTimes-AL7l6.ttf"
+        custom_font = tkFont.Font(family=font_path, size=24)
         #Music settings
         mixer.init()
         sound = mixer.Sound("Music/music.mp3")
@@ -34,47 +37,49 @@ class MainMenu():
         
         
         img = tk.PhotoImage(file="image/manette.png")
-        start_btn = tk.Button(self.fenetre,image=img,compound="top", text="Play", command=self.play, width=120, height=60, bg="#f5a729", fg="#f5a729")
+        start_btn = tk.Button(self.fenetre,image=img,compound="top", text="Play", command=self.play, width=120, height=60, bg="#0a82db", fg="#f0f0ed")
         start_btn.image = img
         
         
         self.user1 = tk.Entry(self.fenetre, width=30, bd=3, relief="sunken", font=("Arial", 14), fg="grey")
         self.user2 = tk.Entry(self.fenetre, width=30, bd=3, relief="sunken", font=("Arial", 14), fg="grey")
         
-        title = tk.Label(self.fenetre, text="CROWN CONQUEST", font=("Arial", 30, "bold"), fg="#f5a729", bg="#3a3935")
-        title.place(x=115,y=60)
+        title = tk.Label(self.fenetre, text="CROWN CONQUEST", font=custom_font, fg="#0a82db", bg="#f0f0ed")
+        title.place(x=100,y=20)
+        subtitle = tk.Label(self.fenetre, text="Dominate the Empire", font=("Arial", 15, "italic"), fg="red", bg="#f0f0ed")
+        subtitle.place(x=200,y=70)
 
-        choix = tk.Label(self.fenetre, text="Choisissez la taille du plateau :", font=("Arial", 15),bg="#3a3935", fg="#f5a729")
-        choix.place(x=170, y=130)
+        choix = tk.Label(self.fenetre, text="Choisissez la taille du plateau :", font=("Arial", 15),bg="#f0f0ed", fg="#0a82db")
+        choix.place(x=170, y=180)
 
         self.cpt=tk.StringVar()
         self.cpt.set('6')
-        lbl=tk.Label(self.fenetre, width='10', textvariable=self.cpt, font='Arial 20 bold',bg="#3a3935", fg="#f5a729")
-        lbl.place(x=210, y=170)
+        lbl=tk.Label(self.fenetre, width='10', textvariable=self.cpt, font='Arial 20 bold',bg="#f0f0ed", fg="#0a82db")
+        lbl.place(x=210, y=220)
 
         '''Buttons to change the size of the board'''
         btn_plus=tk.Button(self.fenetre, text="+", command=self.plus, width='3', height='1',bd= 0,bg="#1cb40d", fg="#ffffff",font=("Arial", 15, "bold"))
-        btn_plus.place(x=330, y=170)
+        btn_plus.place(x=330, y=220)
         btn_moins=tk.Button(self.fenetre, text="-", command=self.moins, width='3', height='1',bd=0, bg="#d5041d", fg="#ffffff",font=("Arial", 15, "bold"))
-        btn_moins.place(x=220, y=170)   #Used to be y=225
+        btn_moins.place(x=220, y=220)   #Used to be y=225
 
 
         '''Load Save button'''
         img2 = tk.PhotoImage(file="image/importer.png") 
-        load_save = tk.Button(self.fenetre, image=img2, compound="top", text="Load Saved Game", width=120, height=60, borderwidth=2,bg="#f5a729",fg="#f5a729" ,command=self.load_game)
+        load_save = tk.Button(self.fenetre, image=img2, compound="top", text="Load Saved Game", width=120, height=60, borderwidth=2,bg="#0a82db",fg="#f0f0ed" ,command=self.load_game)
         load_save.image = img2 
-        load_save.place(x=300, y=500) #220, 570
+        load_save.place(x=320, y=530) #220, 570
 
-        user1_text = tk.Label(self.fenetre, text="Player 1 :", font=("Arial"),bg="#3a3935", fg="#f5a729")
-        user1_text.place(x=10, y=305)
+        user1_text = tk.Label(self.fenetre, text="Player 1 :", font=("Arial"),bg="#f0f0ed", fg="#0a82db")
+        user1_text.place(x=10, y=355)
 
-        user2_text = tk.Label(self.fenetre, text="Player 2 :", font=("Arial"),bg="#3a3935", fg="#f5a729")
+        user2_text = tk.Label(self.fenetre, text="Player 2 :", font=("Arial"),bg="#f0f0ed", fg="#0a82db")
 
-        self.user1.place(x=120, y=305)
-        self.user2.place(x=120, y=355)
+        self.user1.place(x=120, y=355)
+        self.user2.place(x=120, y=405)
 
-        user2_text.place(x=10, y=355)
-        start_btn.place(x=150, y=500)
+        user2_text.place(x=10, y=405)
+        start_btn.place(x=130, y=530)
 
         '''Placeholders'''
         self.user1.config(fg="grey")

@@ -16,7 +16,6 @@ class Game():
 
         if path:
             self.load_game(path)
-            print(self.board)
         else:
             self.size = size
             self.players = [Player(username1, (size-1, 0), size**2 // 4), Player(username2, (0, size-1), size**2 // 4)]
@@ -27,6 +26,7 @@ class Game():
 
         #GUI part
         self.root = root
+        self.root.configure(bg="#f0f0ed")
         #Destroy every child
         for el in self.root.winfo_children():
             el.destroy()
