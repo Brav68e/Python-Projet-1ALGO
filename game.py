@@ -248,7 +248,10 @@ class Game():
         #Pawn selection
         if isinstance(self.board[line][column], Pawn) and self.selected_pawn == None and self.board[line][column].get_owner() == self.current_player:
             self.selected_pawn = self.board[line][column]
-            self.draw_pawn(self.selected_pawn, outline="Green", width=5)            #Act as a refresh
+            if self.selected_pawn.get_owner() == self.players[1]:
+                self.draw_pawn(self.selected_pawn, outline="#FFD700", width=5)
+            else:
+                self.draw_pawn(self.selected_pawn, outline="#00FFFF", width=5)
             self.possible_moves()
             self.draw_possibilities()
             
