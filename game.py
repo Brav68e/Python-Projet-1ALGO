@@ -43,9 +43,13 @@ class Game():
         self.text = Label(self.root, text=f"Turn of : {self.current_player.get_username()}", font= 25)
         self.text.place(x=375, y=825)
 
-        #Save and Leave Button
-        Button(self.root, text="Save", command=self.save_game).place(x=750, y=850, width=50)
-        Button(self.root, text="Quit", command=self.root.destroy).place(x=800, y=850, width=50)
+        #Image for buttons + creation
+        back_image = PhotoImage(file = "Images/back.png")
+        save_image = PhotoImage(file = "Images/save.png")
+        leave_image = PhotoImage(file = "Images/leave.png")
+        Button(self.root, text="Back to menu", image=back_image, compound=TOP, command=self.go_menu).place(x=50, y=825)
+        Button(self.root, text="Save", image=save_image, compound=TOP, command=self.save_game).place(x=700, y=825)
+        Button(self.root, text="Quit", image=leave_image, compound=TOP, command=self.root.destroy).place(x=800, y=825)
 
 
         self.refresh()
@@ -342,9 +346,14 @@ class Game():
                 self.text.configure(text= f"{self.players[(self.current_player_index + 1) % 2].get_username()} has won !")
                 if messagebox.askyesno("Game Over", f"{self.players[(self.current_player_index + 1) % 2].get_username()} has won the game !\nDo you want to play again ?"):
                     #Launch back the menu
-                    self.controller.launch_menu(self.root)
+                    self.go_menu()
                 else:
                     self.root.destroy()
 
 
 ##############################################################################################################
+
+
+    def go_menu(self):
+        '''Launch the menu'''
+        self.controller.launch_menu(self.root)
