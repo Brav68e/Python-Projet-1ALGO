@@ -26,6 +26,7 @@ class Game():
 
         #GUI part
         self.root = root
+        self.root.configure(bg="#f0f0ed")
         #Destroy every child
         for el in self.root.winfo_children():
             el.destroy()
@@ -351,7 +352,6 @@ class Game():
                 else:
                     self.root.destroy()
 
-
 ##################################################################################
 
 
@@ -370,4 +370,4 @@ class Game():
         self.save_image = PhotoImage(file = "Images/save.png")
         self.leave_image = PhotoImage(file = "Images/leave.png")
         self.crown_image = PhotoImage(file = "Images/crown.png")
-        
+

@@ -3,6 +3,7 @@ from tkinter import filedialog
 from pygame import mixer
 
 
+
 class MainMenu():
 
     def __init__(self, controller, root = 0):
@@ -21,8 +22,10 @@ class MainMenu():
 
         #General settings
         self.fenetre.title("CROWN CONQUEST")
-        self.fenetre.geometry("600x600")
+        self.fenetre.geometry("600x650")
+        self.fenetre.configure(bg="#f0f0ed")
         self.fenetre.resizable(False, False)
+        self.fenetre.iconbitmap("image/Logo.ico")
         #Music settings
         mixer.init()
         sound = mixer.Sound("Music/music.mp3")
@@ -31,53 +34,57 @@ class MainMenu():
         menu = tk.Menu(self.fenetre)
         self.fenetre.config(menu=menu)
         
-        '''Rolling Menu For Saved Games'''
-        rolling_menu = tk.Frame(self.fenetre, borderwidth=3, bg="lightgrey")
-        rolling_menu.pack(fill=tk.X)
+        '''Play button'''
+        img = tk.PhotoImage(file="image/manette.png")
+        start_btn = tk.Button(self.fenetre,image=img,compound="top", text="Play", command=self.play, width=120, height=60, bg="#0a82db", fg="#f0f0ed")
+        start_btn.image = img
+        start_btn.place(x=130, y=530)
+        
+        '''Entries for usernames'''
+        self.user1 = tk.Entry(self.fenetre, width=30, bd=3, relief="sunken", font=("Arial", 14), fg="grey")
+        self.user2 = tk.Entry(self.fenetre, width=30, bd=3, relief="sunken", font=("Arial", 14), fg="grey")
+        self.user1.place(x=120, y=355)
+        self.user2.place(x=120, y=405) 
 
-        '''File Tab'''
-        file_menu = tk.Menubutton(rolling_menu, text="File", width='20',borderwidth=2, bg='white', activebackground='grey', relief='raised')
-        file_menu.grid(row=0, column=0)
+        '''Title'''
+        tk.Label(self.fenetre, text="CROWN CONQUEST", font=("Arial",30), fg="#0a82db", bg="#f0f0ed").place(x=100,y=20)
+        tk.Label(self.fenetre, text="Dominate the Empire", font=("Arial", 15, "italic"), fg="red", bg="#f0f0ed").place(x=200,y=70)
 
-        '''File Tab Options'''
-        file_rolling_menu = tk.Menu(file_menu, tearoff=0)
-        file_menu.config(menu=file_rolling_menu)
-        file_rolling_menu.add_command(label="Load Game", command=self.load_game)
-        
-        start_btn = tk.Button(self.fenetre, text="Play", command=self.play, width=12, height=3)
-        
-        
-        self.user1 = tk.Entry(self.fenetre, width=20)
-        self.user2 = tk.Entry(self.fenetre, width=20)
-        
-        title = tk.Label(self.fenetre, text="CROWN CONQUEST", font=("Fast Drag Demo", 30, "bold"), fg="red")
-        title.place(x=115,y=60)
+        '''Crown image'''
+        image1 = tk.PhotoImage(file="image/crown1.png") 
+        crown1 = tk.Label(self.fenetre,image=image1)
+        crown1.place(x=55,y=25)
 
-        choix = tk.Label(self.fenetre, text="Choisissez la taille du plateau :", font=("Arial", 15))
-        choix.place(x=170, y=130)
+        image2 = tk.PhotoImage(file="image/crown2.png") 
+        crown2 = tk.Label(self.fenetre,image=image2)
+        crown2.place(x=505,y=25)
+        
+        '''Choose the size of the board'''
+        tk.Label(self.fenetre, text="Choisissez la taille du plateau :", font=("Arial", 15),bg="#f0f0ed", fg="#0a82db").place(x=170, y=180)
 
         self.cpt=tk.StringVar()
         self.cpt.set('6')
-        lbl=tk.Label(self.fenetre, width='10', textvariable=self.cpt, font='Arial 20 bold')
-        lbl.place(x=210, y=170)
+        lbl=tk.Label(self.fenetre, width='10', textvariable=self.cpt, font='Arial 20 bold',bg="#f0f0ed", fg="#0a82db")
+        lbl.place(x=210, y=220)
 
         '''Buttons to change the size of the board'''
-        btn_plus=tk.Button(self.fenetre, text="+", command=self.plus, width='3', height='1')
-        btn_plus.place(x=320, y=175)
-        btn_moins=tk.Button(self.fenetre, text="-", command=self.moins, width='3', height='1')
-        btn_moins.place(x=250, y=175)   #Used to be y=225
+        tk.Button(self.fenetre, text="+", command=self.plus, width='3', height='1',bd= 0,bg="#1cb40d", fg="#ffffff",font=("Arial", 15, "bold")).place(x=330, y=220)
+        tk.Button(self.fenetre, text="-", command=self.moins, width='3', height='1',bd=0, bg="#d5041d", fg="#ffffff",font=("Arial", 15, "bold")).place(x=220, y=220)
+        
 
 
-        user1_text = tk.Label(self.fenetre, text="Player 1 :", font=("Arial"))
-        user1_text.place(x=10, y=350)
+        '''Load Save button'''
+        img2 = tk.PhotoImage(file="image/importer.png") 
+        load_save = tk.Button(self.fenetre, image=img2, compound="top", text="Load Saved Game", width=120, height=60, borderwidth=2,bg="#0a82db",fg="#f0f0ed" ,command=self.load_game)
+        load_save.image = img2 
+        load_save.place(x=320, y=530) #220, 570
 
-        user2_text = tk.Label(self.fenetre, text="Player 2 :", font=("Arial"))
 
-        self.user1.place(x=120, y=355)
-        self.user2.place(x=440, y=355)
+        '''Default usernames'''
+        tk.Label(self.fenetre, text="Player 1 :", font=("Arial"),bg="#f0f0ed", fg="#0a82db").place(x=10, y=355)
+        tk.Label(self.fenetre, text="Player 2 :", font=("Arial"),bg="#f0f0ed", fg="#0a82db").place(x=10, y=405)
 
-        user2_text.place(x=330, y=350)
-        start_btn.place(x=250, y=500)
+
 
         '''Placeholders'''
         self.user1.config(fg="grey")
@@ -93,47 +100,47 @@ class MainMenu():
         self.fenetre.mainloop()
 
 ###################################################################################
-
+    '''Functions for the placeholders'''
     def entry_focus_in(self,event):
         if self.user1.get() == "Enter username here":
             self.user1.delete(0, "end")
             self.user1.config(fg="black")
 
 ###################################################################################
-
+    '''Functions for the placeholders'''
     def entry_focus_out(self,event):
         if self.user1.get() == "":
             self.user1.insert(0, "Enter username here")
             self.user1.config(fg="grey")
 
 ###################################################################################
-
+    '''Functions for the placeholders'''
     def entry_focus_in2(self,event):
         if self.user2.get() == "Enter username here":
             self.user2.delete(0, "end")
             self.user2.config(fg="black")
 
 ###################################################################################
-
+    '''Functions for the placeholders'''
     def entry_focus_out2(self,event):
         if self.user2.get() == "":
             self.user2.insert(0, "Enter username here")
             self.user2.config(fg="grey")        
 
 ###################################################################################
-
+    '''Functions to increase the size of the board'''
     def plus(self):
         if int(self.cpt.get()) < 12:
             self.cpt.set(int(self.cpt.get()) + 2)
 
 ###################################################################################
-
+    '''Functions to decrease the size of the board'''
     def moins(self):
         if int(self.cpt.get()) > 6:
             self.cpt.set(int(self.cpt.get()) - 2)
 
 ###################################################################################
-      
+    '''Functions to get the username of the first player''' 
     def getUsername1(self):
         if self.user1.get() == "Enter username here" or "":
             return "Player 1"
@@ -141,7 +148,7 @@ class MainMenu():
             return self.user1.get()
         
 ###################################################################################
-
+    '''Functions to get the username of the second player'''
     def getUsername2(self):
         if self.user2.get() == "Enter username here" or "":
             return "Player 2"
@@ -149,7 +156,6 @@ class MainMenu():
             return self.user2.get()
 
 ###################################################################################
-
     def load_game(self):
         '''Use to select a file, read it and launch the game with those parameters'''
         file_path = filedialog.askopenfilename()
