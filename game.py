@@ -41,11 +41,13 @@ class Game():
         self.canvas.place(x=50, y=0)
 
         self.text = Label(self.root, text=f"Turn of : {self.current_player.get_username()}", font= 25)
-        self.text.place(x=375, y=825)
+        self.text.place(x=375, y=830)
 
-        #Save and Leave Button
-        Button(self.root, text="Save", command=self.save_game).place(x=750, y=850, width=50)
-        Button(self.root, text="Quit", command=self.root.destroy).place(x=800, y=850, width=50)
+        #Image for buttons + creation
+        self.load_pictures()
+        Button(self.root, text="Back to menu", image=self.back_image, compound=TOP, command=self.go_menu).place(x=50, y=825)
+        Button(self.root, text="Save", image=self.save_image, compound=TOP, command=self.save_game).place(x=700, y=825)
+        Button(self.root, text="Quit", image=self.leave_image, compound=TOP, command=self.root.destroy).place(x=800, y=825)
 
 
         self.refresh()
@@ -201,16 +203,20 @@ class Game():
         owner = pawn.get_owner()
         value = pawn.get_value()
         line, column = pawn.get_coord()
+        x = column*self.tile_size + self.tile_size/2
+        y = line*self.tile_size + self.tile_size/2
+        r = self.tile_size/3*size
 
         if owner == self.players[0] and value == 1:                 #Player 1 rook
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#4169E1", outline, width)
+            self.create_oval(x, y, r, "#4169E1", outline, width)
         elif owner == self.players[0] and value == 2:               #Player 1 queen
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#0F52BA", outline, width)
+            self.create_oval(x, y, r, "#0F52BA", outline, width)
+            self.canvas.create_image(x, y, image=self.crown_image)
         elif owner == self.players[1] and value == 1:               #Player 2 rook
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#DC143C", outline, width)
+            self.create_oval(x, y, r, "#DC143C", outline, width)
         else:                                                       #Player 1 queen
-            self.create_oval(column*self.tile_size + self.tile_size/2, line*self.tile_size + self.tile_size/2, self.tile_size/3*size, "#9B111E", outline, width)
-
+            self.create_oval(x, y, r, "#9B111E", outline, width)
+            self.canvas.create_image(x, y, image=self.crown_image)
 
 ##################################################################################
 
@@ -243,7 +249,7 @@ class Game():
         #Pawn selection
         if isinstance(self.board[line][column], Pawn) and self.selected_pawn == None and self.board[line][column].get_owner() == self.current_player:
             self.selected_pawn = self.board[line][column]
-            self.draw_pawn(self.selected_pawn, outline="Green", width=5)            #Act as a refresh
+            self.draw_pawn(self.selected_pawn, outline="#32CD32", width=5)
             self.possible_moves()
             self.draw_possibilities()
             
@@ -342,9 +348,26 @@ class Game():
                 self.text.configure(text= f"{self.players[(self.current_player_index + 1) % 2].get_username()} has won !")
                 if messagebox.askyesno("Game Over", f"{self.players[(self.current_player_index + 1) % 2].get_username()} has won the game !\nDo you want to play again ?"):
                     #Launch back the menu
-                    self.controller.launch_menu(self.root)
+                    self.go_menu()
                 else:
                     self.root.destroy()
 
+##################################################################################
 
-##############################################################################################################
+
+    def go_menu(self):
+        '''Launch the menu'''
+        self.controller.launch_menu(self.root)
+
+
+##################################################################################
+
+
+    def load_pictures(self):
+        '''Load every pictures needed, prevent from loading multiple times'''
+    
+        self.back_image = PhotoImage(file = "Images/back.png")
+        self.save_image = PhotoImage(file = "Images/save.png")
+        self.leave_image = PhotoImage(file = "Images/leave.png")
+        self.crown_image = PhotoImage(file = "Images/crown.png")
+
