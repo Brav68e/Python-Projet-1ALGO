@@ -56,7 +56,7 @@ class Game():
         #Frame for rules
         #This has to be here, because the rules frame overlap everything
         self.rules = Frame(self.root, bg="#f0f0ed")
-        self.rules_text = Label(self.rules, font= 25, bg="#f0f0ed")
+        self.rules_text = Label(self.rules, font=("Arial", 15), bg="#f0f0ed")
         Button(self.rules, text="Back to game", image=self.left_arrow_image, compound=TOP, command=self.show_game).place(x=10, y=825)
         self.rules_text.place(x=15, y=100)
 
