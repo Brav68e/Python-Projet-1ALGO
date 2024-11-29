@@ -1,4 +1,4 @@
-from Source_files.game_controller import *
+from Assets.Source_files.game_controller import *
 
 
 if __name__ == "__main__":

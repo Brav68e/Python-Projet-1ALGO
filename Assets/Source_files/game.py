@@ -1,5 +1,5 @@
-from Source_files.player import *
-from Source_files.pawn import *
+from Assets.Source_files.player import *
+from Assets.Source_files.pawn import *
 from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
@@ -37,18 +37,28 @@ class Game():
         self.root.resizable(False, False)
         self.canvas_size = 800              #Only handling 'square' size
 
+
         self.canvas = Canvas(self.root, height=self.canvas_size, width=self.canvas_size)
         self.canvas.place(x=50, y=0)
 
         self.text = Label(self.root, text=f"Turn of : {self.current_player.get_username()}", font= 25)
         self.text.place(x=375, y=830)
 
+
         #Image for buttons + creation
         self.load_pictures()
         Button(self.root, text="Back to menu", image=self.back_image, compound=TOP, command=self.go_menu).place(x=50, y=825)
         Button(self.root, text="Save", image=self.save_image, compound=TOP, command=self.save_game).place(x=700, y=825)
         Button(self.root, text="Quit", image=self.leave_image, compound=TOP, command=self.root.destroy).place(x=800, y=825)
+        Button(self.root, text="Rules", image=self.rules_image, compound=TOP, command=self.show_rules).place(x=150, y=825)
+        
 
+        #Frame for rules
+        #This has to be here, because the rules frame overlap everything
+        self.rules = Frame(self.root, bg="#f0f0ed")
+        self.rules_text = Label(self.rules, font= 25, bg="#f0f0ed")
+        Button(self.rules, text="Back to game", image=self.left_arrow_image, compound=TOP, command=self.show_game).place(x=10, y=825)
+        self.rules_text.place(x=15, y=100)
 
         self.refresh()
 
@@ -59,7 +69,7 @@ class Game():
         self.root.mainloop()
 
 
-##################################################################################
+####################################################################################################################################################################
 
 
     def create_board(self, size):
@@ -164,7 +174,7 @@ class Game():
             self.text.configure(text="Saved Succesfully !")
             
 
-##################################################################################
+####################################################################################################################################################################
 
 
     def draw_board(self):
@@ -366,8 +376,38 @@ class Game():
     def load_pictures(self):
         '''Load every pictures needed, prevent from loading multiple times'''
     
-        self.back_image = PhotoImage(file = "image/back.png")
-        self.save_image = PhotoImage(file = "image/save.png")
-        self.leave_image = PhotoImage(file = "image/leave.png")
-        self.crown_image = PhotoImage(file = "image/crown.png")
+        self.back_image = PhotoImage(file = "Assets/image/Game/back.png")
+        self.save_image = PhotoImage(file = "Assets/image/Game/save.png")
+        self.leave_image = PhotoImage(file = "Assets/image/Game/leave.png")
+        self.crown_image = PhotoImage(file = "Assets/image/Game/crown.png")
+        self.left_arrow_image = PhotoImage(file = "Assets/image/Game/left_arrow.png")
+        self.rules_image = PhotoImage(file = "Assets/image/Game/rules.png")
 
+####################################################################################################################################################################
+
+
+    def show_rules(self):
+        '''Use a Frame to overlap on the main window and show rules'''
+        
+        self.show_rules_text()                          #Load text
+        self.rules.pack(fill=BOTH, expand=1)            #Show the frame
+
+
+##################################################################################
+
+
+    def show_game(self):
+        '''Go back to the game by forgetting the rules frame'''
+        
+        self.rules.pack_forget()
+
+
+##################################################################################
+
+
+    def show_rules_text(self):
+        '''Open and read the file, then apply it's content to the rules Label'''
+        
+        with open("Assets/Rules/Rules.txt", "r", encoding="utf-8") as file:
+            content = file.read()
+            self.rules_text.config(text=content)    

@@ -1,5 +1,5 @@
-from Source_files.game import *
-from Source_files.submenu import *
+from Assets.Source_files.game import *
+from Assets.Source_files.submenu import *
 
 class Game_controller():
 
