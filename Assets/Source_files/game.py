@@ -147,31 +147,33 @@ class Game():
     def save_game(self):
         '''Create a save file of the current game'''
 
+        path = filedialog.asksaveasfilename(defaultextension=".txt")
+        if path:
         #Determine what's the file's name
-        with filedialog.asksaveasfile(defaultextension=".txt") as file:
-            
-            #In this case, we can deal with informations's storage
-            file.write(f"{self.players[0].get_username()}\n")
-            file.write(f"{self.players[1].get_username()}\n")
-            file.write(f"{str(self.size)}\n")
-            file.write(f"{str(self.current_player_index)}\n")
+            with open(path, 'w') as file:
 
-            for row in range(self.size):
-                for column, el in enumerate(self.board[row]):
-                    if el == 0:
-                        file.write("0")
-                    elif el.get_value() == 1 and el.get_owner() == self.players[0]:
-                        file.write("1")
-                    elif el.get_value() == 2 and el.get_owner() == self.players[0]:
-                        file.write("2")
-                    elif el.get_value() == 1 and el.get_owner() == self.players[1]:
-                        file.write("3")
-                    else:
-                        file.write("4")
-                #Line Break
-                file.write("\n")
+                #In this case, we can deal with informations's storage
+                file.write(f"{self.players[0].get_username()}\n")
+                file.write(f"{self.players[1].get_username()}\n")
+                file.write(f"{str(self.size)}\n")
+                file.write(f"{str(self.current_player_index)}\n")
 
-            self.text.configure(text="Saved Succesfully !")
+                for row in range(self.size):
+                    for column, el in enumerate(self.board[row]):
+                        if el == 0:
+                            file.write("0")
+                        elif el.get_value() == 1 and el.get_owner() == self.players[0]:
+                            file.write("1")
+                        elif el.get_value() == 2 and el.get_owner() == self.players[0]:
+                            file.write("2")
+                        elif el.get_value() == 1 and el.get_owner() == self.players[1]:
+                            file.write("3")
+                        else:
+                            file.write("4")
+                    #Line Break
+                    file.write("\n")
+
+                self.text.configure(text="Saved Succesfully !")
             
 
 ####################################################################################################################################################################
