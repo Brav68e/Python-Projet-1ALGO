@@ -193,10 +193,16 @@ class MainMenu():
             return "Player 1"  
         elif not no_space:      #No only-space value
             return "Player 1"
-        elif self.user1.get() != no_space: 
+        elif self.user1.get() != no_space:
             return self.user1.get()
         elif self.user1.get() == self.user2.get(): #No same value as the second player
             return self.user1.get() + "(1)"
+        elif self.user1.get().isupper():
+            return self.user1.get()
+        elif any(char.isdigit() for char in self.user1.get()):
+            return self.user1.get()
+        else:
+            return self.user1.get()
         
 
 ###################################################################################
@@ -216,6 +222,13 @@ class MainMenu():
             return self.user2.get()
         elif self.user1.get() == self.user2.get():   #No same value as the first player
             return self.user2.get() + "(2)"
+        elif self.user2.get().isupper():
+            return self.user2.get()
+        elif any(char.isdigit() for char in self.user2.get()):
+            return self.user2.get()
+        else:
+            return self.user2.get()
+        
             
 
 ###################################################################################
