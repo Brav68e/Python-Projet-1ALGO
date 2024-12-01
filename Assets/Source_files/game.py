@@ -3,6 +3,7 @@ from Assets.Source_files.pawn import *
 from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
+from PIL import Image, ImageTk
 
 
 class Game():
@@ -381,9 +382,14 @@ class Game():
         self.back_image = PhotoImage(file = "Assets/image/Game/back.png")
         self.save_image = PhotoImage(file = "Assets/image/Game/save.png")
         self.leave_image = PhotoImage(file = "Assets/image/Game/leave.png")
-        self.crown_image = PhotoImage(file = "Assets/image/Game/crown.png")
         self.left_arrow_image = PhotoImage(file = "Assets/image/Game/left_arrow.png")
         self.rules_image = PhotoImage(file = "Assets/image/Game/rules.png")
+        self.crown_image = PhotoImage(file = "Assets/image/Game/crown.png")
+        if self.size >= 10:
+            self.crown_image = Image.open("Assets/image/Game/crown.png")
+            self.crown_image = ImageTk.PhotoImage(self.crown_image.resize((30,30)))
+            
+
 
 ####################################################################################################################################################################
 

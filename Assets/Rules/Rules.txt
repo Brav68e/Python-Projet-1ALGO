@@ -1,5 +1,5 @@
     Deux joueurs s’affrontent sur un plateau carré comportant n lignes et n colonnes, 
-    où n est un entier pair. Par défaut n=8.
+    où n est un entier pair.
 
     Chaque joueur dispose de deux types de pièces :
 
@@ -11,7 +11,7 @@
     vers une case vide non nécessairement adjacente, mais à la condition que toutes les cases
     alignées entre sa position de départ et sa position d'arrivée soient vides (à l'instar d'une
     tour aux échecs mais sans la possibilité de prendre une éventuelle pièce adverse se situant 
-    sur la case d'arrivée). Chaque joueur possède initialement une reine et n2//4−1 tours
+    sur la case d'arrivée). Chaque joueur possède initialement une reine et n**2//4−1 tours
     disposées initialement.
 
     Après qu'un joueur ait déplacé l'une de ses tours selon les règles ci-dessus,
