@@ -3,6 +3,7 @@ from Assets.Source_files.pawn import *
 from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
+from pygame import mixer
 from PIL import Image, ImageTk
 
 
@@ -38,9 +39,14 @@ class Game():
         self.root.resizable(False, False)
         self.canvas_size = 800              #Only handling 'square' size
 
+        #Music settings
+        mixer.init()
+        self.move_sound = mixer.Sound("Assets/Music/move.mp3")
 
         self.canvas = Canvas(self.root, height=self.canvas_size, width=self.canvas_size)
         self.canvas.place(x=50, y=0)
+        #Binding, this act as the event handler -> "mainloop"
+        self.canvas.bind("<Button-1>", self.interact)
 
         self.text = Label(self.root, text=f"Turn of : {self.current_player.get_username()}", font= 25)
         self.text.place(x=375, y=830)
@@ -61,11 +67,8 @@ class Game():
         Button(self.rules, text="Back to game", image=self.left_arrow_image, compound=TOP, command=self.show_game).place(x=10, y=825)
         self.rules_text.place(x=15, y=100)
 
+
         self.refresh()
-
-        #Binding, this act as the event handler -> "mainloop"
-        self.canvas.bind("<Button-1>", self.interact)
-
 
         self.root.mainloop()
 
@@ -268,6 +271,7 @@ class Game():
             
         #Pawn movement
         elif (line, column) in self.possibilities:
+            self.move_sound.play()
             tmpx, tmpy = self.selected_pawn.get_coord()
             self.board[line][column] = self.selected_pawn
             self.board[line][column].set_coord((line, column))
