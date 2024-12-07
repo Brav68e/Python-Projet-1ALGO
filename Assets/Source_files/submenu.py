@@ -26,11 +26,16 @@ class MainMenu():
         self.fenetre.configure(bg="#f0f0ed")
         self.fenetre.resizable(False, False)
         self.fenetre.iconbitmap("Assets/image/Menu/Logo.ico")
+
         #Music settings
         mixer.init()
         sound = mixer.Sound("Assets/Music/music.mp3")
-        sound.play(-1)  #-1 = infinite loop
+        #Prevent the music to play again if the music is already playing
+        if not mixer.get_busy():
+            sound.play(-1)  #-1 = infinite loop
 
+
+        #GUI Widgets settings
         menu = tk.Menu(self.fenetre)
         self.fenetre.config(menu=menu)
         
