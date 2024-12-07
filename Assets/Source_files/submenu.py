@@ -194,18 +194,10 @@ class MainMenu():
         no_space = self.user1.get().replace(" ", "") 
         if self.user1.get() == "Enter username here" or "":  #No placeholder value, no empty value
             return "Player 1"
-        elif not self.user1.get():   #No clear value
-            return "Player 1"  
-        elif not no_space:      #No only-space value
+        elif no_space == "":      #No only-space value
             return "Player 1"
-        elif self.user1.get() != no_space:
-            return self.user1.get()
         elif self.user1.get() == self.user2.get(): #No same value as the second player
-            return self.user1.get() + "(1)"
-        elif self.user1.get().isupper():
-            return self.user1.get()
-        elif any(char.isdigit() for char in self.user1.get()):
-            return self.user1.get()
+            return self.user1.get() + " (1)"
         else:
             return self.user1.get()
         
@@ -219,18 +211,10 @@ class MainMenu():
         no_space = self.user2.get().replace(" ", "")
         if self.user2.get() == "Enter username here" or "":  #No placeholder value, no empty value
             return "Player 2"
-        elif not self.user2.get():    #No clear value
-            return "Player 2"  
-        elif not no_space:         #No only-space value
+        elif no_space == "":         #No only-space value
             return "Player 2"
-        elif self.user2.get() != no_space:
-            return self.user2.get()
         elif self.user1.get() == self.user2.get():   #No same value as the first player
-            return self.user2.get() + "(2)"
-        elif self.user2.get().isupper():
-            return self.user2.get()
-        elif any(char.isdigit() for char in self.user2.get()):
-            return self.user2.get()
+            return self.user2.get() + " (2)"
         else:
             return self.user2.get()
         
